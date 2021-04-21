@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Список</title>
+    <style>
+        body {
+            font-family: Helvetica, sans-serif;
+            width: 500px;
+            margin: 10px auto;
+            background: #ADD8E6;
+        }
+
+        .list {
+            width: 600px;
+            margin: auto;
+            font-size: 22px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            box-shadow: 0 0 0.5em black;
+            height: 100%;
+            position: relative;
+            padding: 40px;
+            border-radius: 6px;
+            background:#FFE4B5;
+
+
+
+        }
+        .list__item {
+            display: flex;
+            font-size: 18px;
+            padding: 20px;
+            border-bottom: 1px solid lightgray;
+            justify-content: space-between;
+            box-shadow: 0 0 0.2em black;
+            border-radius: 6px;
+            margin-bottom: 4px;
+            background: #FFDAB9;
+        }
+        .list__item:hover {
+            color: #0000FF;
+        }
+
+        .list__text {
+            flex: 1;
+            margin-left: 10px;
+        }
+
+
+
+
+    </style>
+
+</head>
+<body>
+<div class="list" id="list"></div>
+
+    <script>
+
+          const list = document.getElementById('list');
+
+          let response =  fetch('https://jsonplaceholder.typicode.com/todos');
+
+          response.then((res) => {
+            const text = res.json()
+
+            text.then((title) => {
+
+              for (let i = 0; i <= title.length; i++) {
+
+                const todoList = document.createElement('div');
+
+                todoList.textContent = title[i].title;
+
+                list.prepend(todoList);
+
+                todoList.classList.add('list__item');
+
+                const todoContainerNode = document.createElement('div');
+                const checkboxNode = document.createElement('input');
+
+                const todoTextNode = document.createElement('div');// создаю узел для текста текущего дела
+
+                const removeButtonNode = document.createElement('button');// создю узел для кнопки удаления
+
+                todoContainerNode.append(checkboxNode, todoTextNode, removeButtonNode);// вкладываю дочерние узлы в основной
+
+                checkboxNode.type = "checkbox";
+
+                checkboxNode.checked = title[i].done; // устанавливаю галочку
+
+                removeButtonNode.textContent = '❌'; // украшаю узел кнопки.
+
+                todoList.append(todoContainerNode);// когда всё готово вкладываю основной блок в контейнер #list
+              }
+            })
+          })
+
+    </script>
+</body>
+</html>
